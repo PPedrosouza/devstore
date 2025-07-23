@@ -5,6 +5,3 @@ export async function GET() {
 
     return Response.json(featuredProducts)
 }
-
-// BFF (Back-end for front-end)
-
