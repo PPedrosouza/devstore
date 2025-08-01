@@ -2,19 +2,18 @@ import { api } from "@/data/api";
 import { Product } from "@/data/types/product";
 import { Metadata } from "next";
 import Image from "next/image";
+import data from '../../../api/products/data.json'
 
 interface ProductProps {
-    params: {
-        slug: string
-    }
+    params: Promise<{ slug: string }>
 }
 
 async function getProduct(slug: string): Promise<Product> {
     const response = await api(`/products/${slug}`, {
-        // next: {
-        //   revalidate: 60 * 60, // 1 hour
-        // },
-        cache: 'no-cache' // skeleton test
+        next: {
+            revalidate: 60 * 60, // 1 hour
+        },
+        // cache: 'no-cache' // skeleton test
     })
 
     const product = await response.json()
@@ -22,19 +21,21 @@ async function getProduct(slug: string): Promise<Product> {
     return product
 }
 
-export async function generateMetadata({
-  params,
-}: ProductProps): Promise<Metadata> {
-  const product = await getProduct(params.slug)
-
-  return {
-    title: product.title,
-  }
+export async function generateMetadata(
+    { params }: ProductProps
+): Promise<Metadata> {
+    const { slug } = await params
+    const product = await getProduct(slug)
+    return { title: product.title }
 }
 
+export async function generateStaticParams() {
+    return data.products.map((p) => ({ slug: p.slug }))
+}
 
-export default async function ProductPage({ params }: ProductProps) {
-    const product = await getProduct(params.slug)
+export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params
+    const product = await getProduct(slug)
 
     return (
         <div className="relative grid max-h-[860px] grid-cols-3">
