@@ -23,6 +23,7 @@ export function SearchForm() {
         }
         router.push(`/search?q=${query}`)
     }
+    
     return (
         <form
             onSubmit={handleSearch}
