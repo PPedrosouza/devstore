@@ -18,6 +18,7 @@ export default function SearchLoanding() {
                 <Skeleton className="h-[400px]" />
                 <Skeleton className="h-[400px]" />
                 <Skeleton className="h-[400px]" />
+                <Skeleton className="h-[400px]" />
             </div>
         </div>
     )
