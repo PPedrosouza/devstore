@@ -4,11 +4,8 @@ import { redirect } from "next/navigation"
 import { api } from "@/data/api";
 import { Product } from "@/data/types/product";
 
-// Add this line to force dynamic rendering
-export const dynamic = 'force-dynamic'
-
 interface SearchProps {
-  searchParams: Promise<{ q: string }>  // Add Promise wrapper
+  searchParams: Promise<{ q: string }>
 }
 
 async function searchProducts(query: string): Promise<Product[]> {
